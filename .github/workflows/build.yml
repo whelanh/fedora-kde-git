@@ -51,7 +51,7 @@ jobs:
          remove-browsers: true
          verbose: true
 
-    - name: Free disk space
+      - name: Free disk space
         uses: jlumbroso/free-disk-space@main
         with:
             tool-cache: true
