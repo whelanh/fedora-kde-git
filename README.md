@@ -9,7 +9,7 @@ A Kinoite Image with git master Plasma and Gears plus full KDE development tools
 - KDE development tools and dependencies
 - Development utilities: `kdevelop`, `flatpak-builder`, `clang`, `neovim`, `zsh`
 - Preinstalled `kde-builder` with completions
-- Enabled system services: `podman.socket`, `waydroid-container.service`
+- Enabled system services: `podman.socket`
 
 ## Rebase to This Image
 

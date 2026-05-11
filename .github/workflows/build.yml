@@ -61,7 +61,7 @@ jobs:
             large-packages: true
             docker-images: true
             swap-storage: true
-         
+
       - name: Prepare environment
         run: |
           echo "IMAGE_REGISTRY=${IMAGE_REGISTRY,,}" >> ${GITHUB_ENV}
@@ -109,9 +109,12 @@ jobs:
           sep-tags: " "
           sep-annotations: " "
 
-
       - name: Build Image
         id: build_image
+        # continue-on-error so the job proceeds to log extraction even on failure.
+        # The real exit code is captured inside the image at /usr/lib/kde-build-logs/exit-code
+        # and re-raised by the extraction step below.
+        continue-on-error: true
         uses: redhat-actions/buildah-build@7a95fa7ee0f02d552a32753e7414641a04307056 # v2
         with:
           containerfiles: |
@@ -127,6 +130,7 @@ jobs:
         if: always()
         run: |
           mkdir -p /tmp/kde-build-logs
+
           buildah unshare bash -c "
             CONTAINER=\$(buildah from localhost/${{ env.IMAGE_NAME }}:${{ env.DEFAULT_TAG }})
             MOUNT=\$(buildah mount \$CONTAINER)
@@ -137,14 +141,22 @@ jobs:
             buildah rm \$CONTAINER
           "
 
-      - name: Upload build logs
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: kde-build-logs-${{ matrix.variant.name }}
-          path: /tmp/kde-build-logs/
-          retention-days: 7
-          if-no-files-found: warn
+          # Re-raise the original build.sh exit code so the job fails correctly
+          EXIT_CODE_FILE=/tmp/kde-build-logs/exit-code
+          if [ -f "$EXIT_CODE_FILE" ]; then
+            BUILD_EXIT=$(cat "$EXIT_CODE_FILE")
+            if [ "$BUILD_EXIT" -ne 0 ]; then
+              echo "Build failed with exit code $BUILD_EXIT (from build.sh). See logs."
+              exit "$BUILD_EXIT"
+            fi
+          else
+            # No exit-code file means the image itself never committed (buildah-build
+            # failed before our RUN layer finished). Propagate the buildah failure.
+            if [ "${{ steps.build_image.outcome }}" = "failure" ]; then
+              echo "Build image step failed and no exit-code file was written."
+              exit 1
+            fi
+          fi
 
       - name: Login to GitHub Container Registry
         uses: docker/login-action@4907a6ddec9925e35a0a9e82d7399ccc52663121 # v4.1.0

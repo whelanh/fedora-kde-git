@@ -8,7 +8,8 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     --mount=type=cache,dst=/var/cache \
     --mount=type=cache,dst=/var/log \
     --mount=type=tmpfs,dst=/tmp \
-    /ctx/build.sh && \
+    /ctx/build.sh; \
+    echo $? > /usr/lib/kde-build-logs/exit-code && \
     ostree container commit
 
 ### FIX VAR/RUN SYMLINK
