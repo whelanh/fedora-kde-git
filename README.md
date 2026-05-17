@@ -16,13 +16,13 @@ A Kinoite Image with git master Plasma and Gears plus full KDE development tools
 ### Regular (AMD/Intel)
 
 ```bash
-sudo ostree rebase ostree-unverified-registry:ghcr.io/silverhadch/ublue-kde-dx:latest
+sudo rpm-ostree rebase ostree-unverified-registry:ghcr.io/silverhadch/ublue-kde-dx:latest
 ```
 
 ### NVIDIA
 
 ```bash
-sudo ostree rebase ostree-unverified-registry:ghcr.io/silverhadch/ublue-kde-dx-nvidia:latest
+sudo rpm-ostree rebase ostree-unverified-registry:ghcr.io/silverhadch/ublue-kde-dx-nvidia:latest
 ```
 
 Reboot afterwards to apply the image.
