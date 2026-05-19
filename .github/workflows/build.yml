@@ -92,9 +92,8 @@ jobs:
         uses: actions/cache@v4
         with:
           path: /home/runner/ccache
-          key: ccache-${{ matrix.variant.name }}-${{ github.ref_name }}-${{ github.run_id }}
+          key: ccache-${{ matrix.variant.name }}-${{ github.run_id }}
           restore-keys: |
-            ccache-${{ matrix.variant.name }}-${{ github.ref_name }}-
             ccache-${{ matrix.variant.name }}-
 
       - name: Inject ccache into build
