@@ -20,17 +20,11 @@ An attempt to piggy-back on https://github.com/silverhadch/ublue-kde-dx with the
 
 ## Rebase to This Image
 
-### Regular (AMD/Intel)
 
 ```bash
-sudo rpm-ostree rebase ostree-unverified-registry:ghcr.io/silverhadch/ublue-kde-dx:latest
+sudo rpm-ostree rebase ostree-unverified-registry:ghcr.io/whelanh/fedora-kde-git:latest
 ```
 
-### NVIDIA
-
-```bash
-sudo rpm-ostree rebase ostree-unverified-registry:ghcr.io/silverhadch/ublue-kde-dx-nvidia:latest
-```
 
 Reboot afterwards to apply the image.
 
