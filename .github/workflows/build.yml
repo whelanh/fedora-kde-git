@@ -140,10 +140,11 @@ jobs:
           extra-args: --volume /home/runner/ccache:/ccache
           oci: false
 
-      - name: Push image to podman for rechunk
+      - name: Transfer image to rootful podman for rechunk
         run: |
-          buildah push localhost/${{ env.IMAGE_NAME }}:${{ env.DEFAULT_TAG }} \
-            containers-storage:localhost/${{ env.IMAGE_NAME }}:${{ env.DEFAULT_TAG }}
+          podman save -o /tmp/image.tar localhost/${{ env.IMAGE_NAME }}:${{ env.DEFAULT_TAG }}
+          sudo podman load -i /tmp/image.tar
+          rm -f /tmp/image.tar
 
       - name: Run Rechunker
         id: rechunk
