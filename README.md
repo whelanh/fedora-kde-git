@@ -1,9 +1,10 @@
-# ⚙️ ublue-kde-dx
+# ⚙️ fedora-kde-git
 
-A custom bootc image with git master Plasma and KDE Gears, plus a full KDE development toolchain. Perfect for KDE developers who want to hack on Plasma itself.
+An attempt to piggy-back on (https://github.com/silverhadch/ublue-kde-dx custom bootc)[https://github.com/silverhadch/ublue-kde-dx] with the notable change that it substitutes quay.io/fedora-ostree-desktops/base-atomic:rawhide as the base image on which to build the  git master Plasma and KDE Gears, plus a full KDE development toolchain. 
 
 ## Features
 
+- Rawhide base image
 - Plasma (git master)
 - KDE Gears (git master)
 - KDE development tools and dependencies
@@ -12,13 +13,6 @@ A custom bootc image with git master Plasma and KDE Gears, plus a full KDE devel
 - Enabled system services: `podman.socket`, `NetworkManager`, `bluetooth`, `cups`, and more
 
 ## Images
-
-| Image | Status |
-|---|---|
-| `ublue-kde-dx:latest` | ✅ Stable |
-| `ublue-kde-dx-nvidia:latest` | ✅ Stable |
-| `ublue-kde-dx-dev:dev` | ⚠️ WIP |
-| `ublue-kde-dx-dev-nvidia:dev` | ⚠️ WIP |
 
 > [!WARNING]
 > **`-dev` images are experimental and will be broken.**
@@ -42,4 +36,4 @@ Reboot afterwards to apply the image.
 
 ## Credits
 
-Customizations by @silverhadch. Based on Fedora and the [Universal Blue](https://universal-blue.org) project.
+Based on dustomizations by @silverhadch and the Fedora project.
