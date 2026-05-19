@@ -36,4 +36,4 @@ Reboot afterwards to apply the image.
 
 ## Credits
 
-Based on dustomizations by @silverhadch and the Fedora project.
+Based on customizations by @silverhadch and the Fedora project.
