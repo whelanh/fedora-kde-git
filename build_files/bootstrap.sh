@@ -70,3 +70,13 @@ echo "==> Installing dev tools..."
 dnf5 install -y --skip-broken --skip-unavailable --allowerasing \
     neovim zsh flatpak-builder kdevelop kdevelop-devel kdevelop-libs \
     || error "Some dev tools failed to install"
+
+echo "==> Installing custom packages..."
+dnf5 install -y --skip-broken --skip-unavailable --allowerasing \
+    gcc gcc-c++ gcc-gfortran make fastfetch htop duf cmake git gh fuse \
+    fprintd fprintd-pam tcl-devel tk-devel python-pyqt6 python-pyqt6-webengine \
+    edk2-ovmf libvirt libvirt-nss PackageKit docker distrobox podman-compose \
+    podman-machine qemu-char-spice qemu-device-display-virtio-gpu \
+    qemu-device-display-virtio-vga qemu-device-usb-redirect qemu-img \
+    qemu-system-x86-core qemu-user-binfmt qemu-user-static qemu virt-manager
+    || error "Some custom tools failed to install"
