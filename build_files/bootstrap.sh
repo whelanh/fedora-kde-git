@@ -40,6 +40,16 @@ dnf5 install -y --skip-broken --skip-unavailable --allowerasing \
     'dnf-command(repoquery)' \
     || error "Some build deps failed to install"
 
+echo "==> Ensuring kpipewire build deps are present (needed on base-main; base-nvidia gets these via drivers)..."
+dnf5 install -y \
+    pipewire-devel \
+    ffmpeg-devel \
+    libva-devel \
+    libdrm-devel \
+    mesa-libgbm-devel \
+    libepoxy-devel \
+    || true
+
 dnf5 group install development-tools -y || error "Some build deps failed to install"
 
 echo "==> Installing kde-builder..."
