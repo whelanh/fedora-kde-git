@@ -28,6 +28,8 @@ dnf5 install -y --skip-broken --skip-unavailable --allowerasing \
     upower \
     udisks2 \
     pcscd \
+    kernel-modules-extra \
+    linux-firmware \
     || error "Some system runtime deps failed to install"
 
 echo "==> Installing build dependencies..."
