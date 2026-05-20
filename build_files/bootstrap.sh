@@ -24,7 +24,7 @@ echo "==> Installing build dependencies..."
 dnf5 install -y --skip-broken --skip-unavailable --allowerasing \
     sudo git ninja-build rsync openssh-clients ccache \
     python3-yaml python3-requests python3-pip python3-setproctitle ruby \
-    cmake rpm-build \
+    cmake rpm-build zstd tar \
     clang-devel kf6-kirigami-devel \
     kf6-kirigami-addons-devel clang-tools-extra git-clang-format jq \
     'dnf-command(repoquery)' \
