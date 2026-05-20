@@ -4,6 +4,10 @@ COPY build_files /
 
 FROM ${BASE_IMAGE}
 
+# Add container signing public key and strict policy
+COPY cosign.pub /usr/etc/pki/containers/fedora-kde-git.pub
+COPY build_files/policy.json /usr/etc/containers/policy.json
+
 RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     --mount=type=cache,dst=/var/cache \
     --mount=type=cache,dst=/var/log \

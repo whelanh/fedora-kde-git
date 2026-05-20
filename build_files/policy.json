@@ -1,0 +1,20 @@
+{
+    "default": [
+        {
+            "type": "insecureAcceptAnything"
+        }
+    ],
+    "transports": {
+        "docker": {
+            "ghcr.io/whelanh/fedora-kde-git": [
+                {
+                    "type": "sigstoreSigned",
+                    "keyPath": "/usr/etc/pki/containers/fedora-kde-git.pub",
+                    "signedIdentity": {
+                        "type": "matchRepository"
+                    }
+                }
+            ]
+        }
+    }
+}
