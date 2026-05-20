@@ -26,7 +26,7 @@ For my own purposes, the build_files/boostrap.sh also includes:
     edk2-ovmf libvirt libvirt-nss PackageKit docker distrobox podman-compose 
     podman-machine qemu-char-spice qemu-device-display-virtio-gpu 
     qemu-device-display-virtio-vga qemu-device-usb-redirect qemu-img 
-    qemu-system-x86-core qemu-user-binfmt qemu-user-static qemu virt-manager`
+    qemu-system-x86-core qemu-user-binfmt qemu-user-static qemu virt-manager tailscale`
 
 ## Rebase to This Image
 
