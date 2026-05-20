@@ -21,22 +21,20 @@ if ! /ctx/bootstrap.sh 2>&1 | tee -a "$ARTIFACTS_DIR/bootstrap.log"; then
 fi
 
 if [ "$FAILED" -eq 0 ]; then
-    log "Building KDE..."
-    if ! /ctx/build-kde.py 2>&1 | tee -a "$ARTIFACTS_DIR/kde-build.log"; then
-        error "build-kde.py failed"
+    log "Extracting KDE master tar..."
+    if ! tar -C / -xf /ctx/kde-master.tar.zst --use-compress-program=unzstd 2>&1 | tee -a "$ARTIFACTS_DIR/extract.log"; then
+        error "Failed to extract kde-master.tar.zst"
         FAILED=1
     fi
 fi
 
-# Collect kde-builder per-project logs regardless of build outcome
-if [ -d /builder/log ]; then
-    log "Collecting kde-builder logs..."
-    cp -r /builder/log "$ARTIFACTS_DIR/kde-builder-logs"
-fi
+if [ "$FAILED" -eq 0 ]; then
+    log "Updating linker cache..."
+    ldconfig
 
-# Get rid of SDDM if it exists
-rm -f /etc/systemd/system/display-manager.service
-dnf5 remove -y sddm || true
+    log "Removing SDDM if present..."
+    rm -f /etc/systemd/system/display-manager.service
+    dnf5 remove -y sddm || true
 
 if [ "$FAILED" -eq 0 ]; then
     log "Enabling systemd units..."
