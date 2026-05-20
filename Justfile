@@ -96,6 +96,30 @@ build $target_image=image_name $tag=default_tag:
         --tag "${target_image}:${tag}" \
         .
 
+# Rechunk the image with rpm-ostree using the locally built image (avoids pulling a separate image)
+# Must be run as root: sudo just ostree-rechunk
+ostree-rechunk $target_image=image_name $tag=default_tag: (_rootful_load_image target_image tag)
+    #!/usr/bin/env bash
+
+    set -xeuo pipefail
+
+    if [[ ! "${UID}" -eq "0" ]]; then
+        echo "This needs to run as root."
+        exit 1
+    fi
+
+    podman run --rm \
+        --privileged \
+        -v "/var/lib/containers:/var/lib/containers" \
+        --entrypoint /usr/bin/rpm-ostree \
+        "localhost/${target_image}:${tag}" \
+        compose build-chunked-oci \
+        --max-layers 127 \
+        --format-version=2 \
+        --bootc \
+        --from "localhost/${target_image}:${tag}" \
+        --output containers-storage:"localhost/${target_image}:${tag}"
+
 # Command: _rootful_load_image
 # Description: This script checks if the current user is root or running under sudo. If not, it attempts to resolve the image tag using podman inspect.
 #              If the image is found, it loads it into rootful podman. If the image is not found, it pulls it from the repository.
