@@ -66,5 +66,5 @@ dnf5 install -y --skip-broken --skip-unavailable --allowerasing \
     edk2-ovmf libvirt libvirt-nss PackageKit docker distrobox podman-compose \
     podman-machine qemu-char-spice qemu-device-display-virtio-gpu \
     qemu-device-display-virtio-vga qemu-device-usb-redirect qemu-img \
-    qemu-system-x86-core qemu-user-binfmt qemu-user-static qemu virt-manager \
+    qemu-system-x86-core qemu-user-binfmt qemu-user-static qemu virt-manager tailscale \
     || error "Some custom tools failed to install"
