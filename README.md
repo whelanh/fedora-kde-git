@@ -12,12 +12,6 @@ An attempt to piggy-back on https://github.com/silverhadch/ublue-kde-dx with the
 - Preinstalled `kde-builder` with shell completions
 - Enabled system services: `podman.socket`, `NetworkManager`, `bluetooth`, `cups`, and more
 
-## Images
-
-> [!WARNING]
-> **`-dev` images are experimental and will be broken.**
-> They are built from the `dev` branch and may fail to boot or produce a broken desktop at any time. Do not use them.
-
 ## Rebase to This Image
 
 
