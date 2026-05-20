@@ -35,6 +35,7 @@ if [ "$FAILED" -eq 0 ]; then
     log "Removing SDDM if present..."
     rm -f /etc/systemd/system/display-manager.service
     dnf5 remove -y sddm || true
+fi
 
 if [ "$FAILED" -eq 0 ]; then
     log "Enabling systemd units..."
