@@ -67,4 +67,5 @@ dnf5 install -y --skip-broken --skip-unavailable --allowerasing \
     podman-machine qemu-char-spice qemu-device-display-virtio-gpu \
     qemu-device-display-virtio-vga qemu-device-usb-redirect qemu-img \
     qemu-system-x86-core qemu-user-binfmt qemu-user-static qemu virt-manager tailscale \
+    fuse fuse-libs \
     || error "Some custom tools failed to install"
