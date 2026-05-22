@@ -13,7 +13,7 @@ A fork of [https://github.com/silverhadch/fedora-plasma-canary](https://github.c
 - Enabled system services: `podman.socket`, `NetworkManager`, `bluetooth`, `cups`
 ---  
 
-### Other departure from `silverhadch/ublue-kde-dx`
+### Departure from `silverhadch/fedora-plasma-canary`
 
 For my own purposes, the build_files/boostrap.sh also includes: 
 
