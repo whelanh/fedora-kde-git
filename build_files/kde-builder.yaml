@@ -41,6 +41,7 @@ global:
   check-self-updates: false
 
   ignore-projects:
+  - kapsule
   - kgamma
   - kwin-x11
   - wacomtablet

@@ -22,9 +22,9 @@ dnf5 install -y --skip-broken --skip-unavailable --allowerasing \
 
 log "Configuring ccache..."
 export CCACHE_DIR=/ccache
-export CCACHE_MAXSIZE=10G
+export CCACHE_MAXSIZE=5G
 ccache --set-config=cache_dir=/ccache
-ccache --set-config=max_size=10G
+ccache --set-config=max_size=5G
 ccache --set-config=compression=true
 ccache -z
 
