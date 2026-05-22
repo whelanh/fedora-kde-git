@@ -31,7 +31,6 @@ For my own purposes, the build_files/boostrap.sh also includes:
 
 ## Rebase to This Image
 
-
 ```bash
 sudo rpm-ostree rebase ostree-unverified-registry:ghcr.io/whelanh/fedora-kde-git:latest
 ```
@@ -39,5 +38,7 @@ sudo rpm-ostree rebase ostree-unverified-registry:ghcr.io/whelanh/fedora-kde-git
 Reboot afterwards to apply the image.
 
 ## Credits
-
 Based on customizations by @silverhadch and the Fedora daily atomic base image.
+
+## Discussion
+Brief background explanation can be found [here](https://archsetup.blogspot.com/2026/05/rawhide-kde-plasmagearbuilder-stack-git.html)
