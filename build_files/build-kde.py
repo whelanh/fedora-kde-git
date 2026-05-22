@@ -28,6 +28,7 @@ KDE_BUILDER_TARGETS = [
     "kio-gdrive",
     "plasma-setup",
     "plasma-wayland-protocols",
+    "kapsule",
     "konlineaccounts",
     "konsole",
     "kpmcore",
