@@ -1,6 +1,6 @@
 # ⚙️ fedora-kde-git
 
-A fork of [https://github.com/silverhadch/ublue-kde-dx](https://github.com/silverhadch/fedora-plasma-canary) with some additional packages installed (see below).  
+A fork of [https://github.com/silverhadch/fedora-plasma-canary](https://github.com/silverhadch/fedora-plasma-canary) with some additional packages installed (see below).  
 
 ## Features
 
