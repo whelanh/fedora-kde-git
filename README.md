@@ -1,4 +1,4 @@
-# ⚙️ fedora-kde-git
+# ⚙️ fedora-kde-git [![GitHub license](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/whelanh/fedora-kde-git/blob/github/COPYING) [![Build Status](https://github.com/whelanh/fedora-kde-git/actions/workflows/build.yml/badge.svg)](https://github.com/whelanh/fedora-kde-git/actions/workflows/build.yml) [![CodeQL](https://github.com/whelanh/fedora-kde-git/actions/workflows/dynamic/github-code-scanning/codeql/badge.svg)](https://github.com/whelanh/scidCommunity/actions/workflows/dynamic/github-code-scanning/codeql)
 
 A fork of [https://github.com/silverhadch/fedora-plasma-canary](https://github.com/silverhadch/fedora-plasma-canary) with some additional packages installed (see below).  
 
