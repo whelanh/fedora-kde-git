@@ -1,10 +1,6 @@
 # ⚙️ fedora-kde-git
 
-A fork of https://github.com/silverhadch/ublue-kde-dx with the notable change that it substitutes 
-
-`quay.io/fedora-ostree-desktops/base-atomic:rawhide` 
-
-as the base image on which to build the  git master Plasma, KDE Gears and a full KDE development toolchain. 
+A fork of https://github.com/silverhadch/ublue-kde-dx with some additional packages installed (see below).  
 
 ## Features
 
@@ -40,5 +36,3 @@ Reboot afterwards to apply the image.
 ## Credits
 Based on customizations by @silverhadch and the Fedora daily atomic base image.
 
-## Discussion
-Brief background explanation can be found [here](https://archsetup.blogspot.com/2026/05/rawhide-kde-plasmagearbuilder-stack-git.html)
