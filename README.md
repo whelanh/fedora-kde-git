@@ -33,6 +33,10 @@ sudo rpm-ostree rebase ostree-unverified-registry:ghcr.io/whelanh/fedora-kde-git
 
 Reboot afterwards to apply the image.
 
+## Justfile recipes
+
+If you have an interest in setting up your own just commands (like Universal Blue's `ujust`), see [https://github.com/whelanh/justfile-recipes](https://github.com/whelanh/justfile-recipes)
+
 ## Credits
-Based on customizations by @silverhadch and the Fedora daily atomic base image.
+Based on customizations by @silverhadch and the [Fedora daily atomic](https://quay.io/repository/fedora-ostree-desktops/base-atomic) base image.
 
