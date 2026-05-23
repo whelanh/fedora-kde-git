@@ -94,6 +94,7 @@ jobs:
           name: KDE Master Nightly (${{ github.ref_name }})
           body: "KDE git master build for branch ${{ github.ref_name }} — updated daily. Do not use directly, consumed by the image build pipeline."
           prerelease: true
+          make_latest: false
           files: |
             /tmp/kde-work/kde-master.tar.zst
             /tmp/kde-work/base-image-digest.txt
