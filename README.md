@@ -37,6 +37,14 @@ Reboot afterwards to apply the image.
 
 If you have an interest in setting up your own just commands (like Universal Blue's `ujust`), see [https://github.com/whelanh/justfile-recipes](https://github.com/whelanh/justfile-recipes)
 
-## Credits
+## Verification
+
+These images are signed with [Sigstore](https://www.sigstore.dev/)'s [cosign](https://github.com/sigstore/cosign). You can verify the signature by downloading the `cosign.pub` file from this repo and running the following command:
+
+```bash
+cosign verify --key cosign.pub ghcr.io/whelanh/fedora-kde-git:latest
+```
+
+## 🙏 Gratitude
 Based on customizations by @silverhadch and the [Fedora daily atomic](https://quay.io/repository/fedora-ostree-desktops/base-atomic) base image.
 
