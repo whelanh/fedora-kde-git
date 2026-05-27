@@ -22,6 +22,7 @@ KDE_BUILDER_TARGETS = [
     "kdegraphics-thumbnailers",
     "kde-inotify-survey",
     "kdenetwork-filesharing",
+    "kdialog",
     "kimageformats",
     "kio-admin",
     "kio-fuse",
