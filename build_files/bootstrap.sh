@@ -31,7 +31,6 @@ dnf5 install -y --skip-broken --skip-unavailable --allowerasing \
     cmake rpm-build zstd tar \
     clang-devel kf6-kirigami-devel \
     kf6-kirigami-addons-devel clang-tools-extra git-clang-format jq \
-    libappimage Qt6QmlCompilerPlusPrivateTools QmlLint ApkQt ReuseTool \
     'dnf-command(repoquery)' \
     || error "Some build deps failed to install"
 
