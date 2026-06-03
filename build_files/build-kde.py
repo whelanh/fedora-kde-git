@@ -67,11 +67,8 @@ shutil.copy("/ctx/kde-builder.yaml", f"{config_dir}/kde-builder.yaml")
 
 run_kde_builder(["--metadata-only"])
 
-# --- TODO: Hotfix — remove Rust CMake file that conflicts with KDE's Rust builds ---
-subprocess.run(["dnf5", "install", "-y", "qt6-qtwebengine-devel"])
-rust_cmake = "/usr/lib64/cmake/Qt6/FindRust.cmake"
-if os.path.exists(rust_cmake):
-    os.remove(rust_cmake)
+# Required dependency for webengine consumers
+subprocess.run(["dnf5", "install", "-y", "qt6-qtwebengine-devel"], check=True)
 
 # --- Build ---
 os.environ["CXXFLAGS"] = "-ffile-prefix-map=/builder/src/=/usr/src/debug/"
