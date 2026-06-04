@@ -70,18 +70,13 @@ run_kde_builder(["--metadata-only"])
 # Required dependency for webengine consumers
 subprocess.run(["dnf5", "install", "-y", "qt6-qtwebengine-devel"], check=True)
 
-subprocess.run(["dnf5", "install", "-y", "ibus-devel"], check=True)
-
-# Symlink ibus-visibility.h into the main ibus include dir.
-# ibusversion.h includes <ibus-visibility.h> but the file lives in
-# /usr/lib64/ibus-1.0/include/ which is not on the default search path.
-ibus_vis = "/usr/lib64/ibus-1.0/include/ibus-visibility.h"
-ibus_inc = "/usr/include/ibus-1.0/ibus-visibility.h"
-if os.path.exists(ibus_vis) and not os.path.exists(ibus_inc):
-    os.symlink(ibus_vis, ibus_inc)
-    logger.info("Symlinked ibus-visibility.h into /usr/include/ibus-1.0/")
-else:
-    logger.warning(f"ibus-visibility.h fixup skipped (src={os.path.exists(ibus_vis)}, dst_exists={os.path.exists(ibus_inc)})")
+# Remove ibus-devel: the rawhide container environment has a broken
+# ibus-visibility.h include chain that causes plasma-desktop's kimpanel
+# ibus backend to fail to compile.  ibus-devel is pulled in by
+# install-kde-deps.py (fedora.yaml), so we must actively remove it.
+# Without it, CMake simply skips the ibus backend.  The SCIM backend
+# and the rest of plasma-desktop are unaffected.
+subprocess.run(["dnf5", "remove", "-y", "ibus-devel"], check=False)
 
 # --- Build ---
 os.environ["CXXFLAGS"] = "-ffile-prefix-map=/builder/src/=/usr/src/debug/"
