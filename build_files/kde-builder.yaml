@@ -63,7 +63,7 @@ override discover:
     cmake-options: -DBUILD_RpmOstreeBackend=ON -DBUILD_PackageKitBackend=OFF
 
 override plasma-desktop:
-    cmake-options: -DBUILD_KCM_TOUCHPAD_X11=OFF -DBUILD_KCM_MOUSE_X11=OFF -DCMAKE_CXX_FLAGS="-I/usr/lib64/ibus-1.0/include"
+    cmake-options: -DBUILD_KCM_TOUCHPAD_X11=OFF -DBUILD_KCM_MOUSE_X11=OFF
 
 override plasma-integration:
     cmake-options: -DDEFAULT_UNION_STYLE=ON -DBUILD_QT5=OFF

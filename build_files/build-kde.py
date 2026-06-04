@@ -72,6 +72,17 @@ subprocess.run(["dnf5", "install", "-y", "qt6-qtwebengine-devel"], check=True)
 
 subprocess.run(["dnf5", "install", "-y", "ibus-devel"], check=True)
 
+# Symlink ibus-visibility.h into the main ibus include dir.
+# ibusversion.h includes <ibus-visibility.h> but the file lives in
+# /usr/lib64/ibus-1.0/include/ which is not on the default search path.
+ibus_vis = "/usr/lib64/ibus-1.0/include/ibus-visibility.h"
+ibus_inc = "/usr/include/ibus-1.0/ibus-visibility.h"
+if os.path.exists(ibus_vis) and not os.path.exists(ibus_inc):
+    os.symlink(ibus_vis, ibus_inc)
+    logger.info("Symlinked ibus-visibility.h into /usr/include/ibus-1.0/")
+else:
+    logger.warning(f"ibus-visibility.h fixup skipped (src={os.path.exists(ibus_vis)}, dst_exists={os.path.exists(ibus_inc)})")
+
 # --- Build ---
 os.environ["CXXFLAGS"] = "-ffile-prefix-map=/builder/src/=/usr/src/debug/"
 
