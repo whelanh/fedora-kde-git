@@ -70,6 +70,8 @@ run_kde_builder(["--metadata-only"])
 # Required dependency for webengine consumers
 subprocess.run(["dnf5", "install", "-y", "qt6-qtwebengine-devel"], check=True)
 
+subprocess.run(["dnf5", "install", "-y", "ibus-devel"], check=True)
+
 # --- Build ---
 os.environ["CXXFLAGS"] = "-ffile-prefix-map=/builder/src/=/usr/src/debug/"
 
