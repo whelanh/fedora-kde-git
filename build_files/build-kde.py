@@ -15,6 +15,7 @@ KDE_BUILDER_TARGETS = [
     "ark",
     "audiocd-kio",
     "auto-chmod",
+    "discover",
     "dolphin",
     "dolphin-plugins",
     "ffmpegthumbs",
@@ -78,10 +79,29 @@ subprocess.run(["dnf5", "install", "-y", "qt6-qtwebengine-devel"], check=True)
 # and the rest of plasma-desktop are unaffected.
 subprocess.run(["dnf5", "remove", "-y", "ibus-devel"], check=False)
 
+# --- Source Update and Patching ---
+logger.info("Updating sources...")
+run_kde_builder(["--src-only"] + KDE_BUILDER_TARGETS)
+
+updates_cpp_path = "/builder/src/discover/kcm/updates.cpp"
+if os.path.exists(updates_cpp_path):
+    logger.info(f"Patching {updates_cpp_path} to include <QQmlEngine> and <QtQml>...")
+    with open(updates_cpp_path, "r") as f:
+        content = f.read()
+    if "#include <QQmlEngine>" not in content:
+        patched_content = "#include <QQmlEngine>\n#include <QtQml>\n" + content
+        with open(updates_cpp_path, "w") as f:
+            f.write(patched_content)
+        logger.info("Successfully patched updates.cpp")
+    else:
+        logger.info("updates.cpp already contains <QQmlEngine>")
+else:
+    logger.warning(f"Could not find {updates_cpp_path} to patch!")
+
 # --- Build ---
 os.environ["CXXFLAGS"] = "-ffile-prefix-map=/builder/src/=/usr/src/debug/"
 
-args = ["kde-builder", "--refresh-build"] + KDE_BUILDER_TARGETS
+args = ["kde-builder", "--no-src", "--refresh-build"] + KDE_BUILDER_TARGETS
 logger.info(f"Running: {' '.join(args)}")
 process = subprocess.run(args=args)
 if process.returncode != 0:

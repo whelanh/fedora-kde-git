@@ -32,7 +32,7 @@ global:
   num-cores-low-mem: "auto"
 
   install-login-session: false
-  stop-on-failure: true
+  stop-on-failure: false
   directory-layout: flat
   cmake-generator: Ninja
   compile-commands-linking: false
