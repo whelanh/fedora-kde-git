@@ -41,7 +41,17 @@ dnf5 install -y --skip-broken --skip-unavailable --allowerasing \
 dnf5 group install development-tools -y || error "development-tools failed to install"
 
 log "Installing kde-builder..."
-git clone https://invent.kde.org/sdk/kde-builder.git /usr/share/kde-builder
+for i in {1..5}; do
+    if git clone https://invent.kde.org/sdk/kde-builder.git /usr/share/kde-builder; then
+        break
+    fi
+    echo "git clone failed, retrying in 5 seconds (attempt $i of 5)..."
+    sleep 5
+done
+if [ ! -d /usr/share/kde-builder ]; then
+    error "Failed to clone kde-builder after 5 attempts"
+    exit 1
+fi
 ln -sf /usr/share/kde-builder/kde-builder /usr/bin/kde-builder
 
 log "Fetching and installing KDE distro dependencies..."
