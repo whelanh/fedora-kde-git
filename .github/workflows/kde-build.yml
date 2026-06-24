@@ -59,14 +59,9 @@ jobs:
       - name: Capture base image tag
         run: |
           mkdir -p /tmp/kde-work
+          TAG="rawhide"
 
-          DATE=$(date +%Y%m%d)
-          TAG="rawhide.${DATE}.0"
-
-          echo "Verifying tag exists: ${TAG}"
-          skopeo inspect --no-creds docker://quay.io/fedora-ostree-desktops/base-atomic:${TAG} > /dev/null
-
-          echo "Using stable tag: ${TAG}"
+          echo "Using tag: ${TAG}"
           echo "BASE_IMAGE_TAG=${TAG}" >> ${GITHUB_ENV}
           printf "rawhide=quay.io/fedora-ostree-desktops/base-atomic:%s\n" "${TAG}" > /tmp/kde-work/base-image-digest.txt
 
