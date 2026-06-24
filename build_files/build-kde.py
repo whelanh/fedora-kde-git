@@ -6,6 +6,7 @@ import os
 import subprocess
 import logging
 import shutil
+import time
 import yaml
 
 logging.basicConfig(level=logging.INFO)
@@ -65,6 +66,53 @@ os.environ["CCACHE_DIR"] = "/ccache"
 config_dir = "/root/.config"
 os.makedirs(config_dir, exist_ok=True)
 shutil.copy("/ctx/kde-builder.yaml", f"{config_dir}/kde-builder.yaml")
+
+# Pre-clone sysadmin/repo-metadata so kde-builder finds the directory already present.
+# kde-builder's _verify_ref_present() runs `git ls-remote` with a 10-second Python timeout
+# before cloning, which can be hit on slow or congested networks. When the directory already
+# exists, kde-builder calls update_existing_clone() (uses `git fetch`, no short timeout) and
+# skips the ls-remote check entirely.
+_metadata_state_home = os.environ.get("XDG_STATE_HOME") or os.path.join(os.environ["HOME"], ".local/state")
+_metadata_dir = os.path.join(_metadata_state_home, "sysadmin-repo-metadata")
+if not os.path.exists(os.path.join(_metadata_dir, ".git")):
+    os.makedirs(_metadata_state_home, exist_ok=True)
+    logger.info("Pre-cloning sysadmin/repo-metadata to bypass kde-builder ls-remote timeout...")
+    _cloned = False
+    for _attempt in range(5):
+        if _attempt > 0:
+            if os.path.exists(_metadata_dir):
+                shutil.rmtree(_metadata_dir)
+            time.sleep(5)
+        if subprocess.run(
+            ["git", "clone", "https://invent.kde.org/sysadmin/repo-metadata.git", _metadata_dir],
+            capture_output=True,
+        ).returncode == 0:
+            _cloned = True
+            break
+        logger.warning(f"repo-metadata pre-clone attempt {_attempt + 1}/5 failed, retrying...")
+    if _cloned:
+        # kde-builder hardcodes branch='master' for repo-metadata. If the remote's
+        # default branch is something else (e.g. 'main'), set up origin/master so
+        # kde-builder can check it out successfully.
+        _head = subprocess.run(
+            ["git", "-C", _metadata_dir, "branch", "--show-current"],
+            capture_output=True, text=True,
+        ).stdout.strip()
+        if _head and _head != "master":
+            logger.info(f"Remote default branch is '{_head}'; mapping it to 'master' for kde-builder...")
+            subprocess.run(
+                ["git", "-C", _metadata_dir, "config", "remote.origin.fetch",
+                 f"+refs/heads/{_head}:refs/remotes/origin/master"],
+                check=True,
+            )
+            subprocess.run(["git", "-C", _metadata_dir, "fetch", "origin"], capture_output=True)
+            subprocess.run(
+                ["git", "-C", _metadata_dir, "checkout", "-b", "master", "origin/master"],
+                capture_output=True,
+            )
+        logger.info("repo-metadata pre-clone succeeded")
+    else:
+        logger.warning("All pre-clone attempts failed; kde-builder will attempt it directly (may timeout)")
 
 run_kde_builder(["--metadata-only"])
 
