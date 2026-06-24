@@ -12,6 +12,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 KDE_BUILDER_TARGETS = [
+    "appstream",
     "ark",
     "audiocd-kio",
     "auto-chmod",
