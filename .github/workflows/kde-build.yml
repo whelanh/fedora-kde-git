@@ -2,8 +2,8 @@
 name: Build KDE Master
 
 on:
-  schedule:
-    - cron: '00 02 * * *'
+  #schedule:
+  #  - cron: '00 02 * * *'
   push:
     branches:
       - main
