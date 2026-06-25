@@ -43,6 +43,7 @@ global:
   check-self-updates: false
 
   ignore-projects:
+  - appstream
   - kapsule
   - kgamma
   - kwin-x11
