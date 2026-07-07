@@ -61,11 +61,11 @@ jobs:
           TAG="rawhide.${DATE}.0"
 
           echo "Verifying tag exists: ${TAG}"
-          skopeo inspect --no-creds docker://quay.io/fedora-ostree-desktops/base-atomic:${TAG} > /dev/null
+          skopeo inspect --no-creds docker://quay.io/fedora-ostree-desktops/kinoite:${TAG} > /dev/null
 
           echo "Using stable tag: ${TAG}"
           echo "BASE_IMAGE_TAG=${TAG}" >> ${GITHUB_ENV}
-          printf "rawhide=quay.io/fedora-ostree-desktops/base-atomic:%s\n" "${TAG}" > /tmp/kde-work/base-image-digest.txt
+          printf "rawhide=quay.io/fedora-ostree-desktops/kinoite:%s\n" "${TAG}" > /tmp/kde-work/base-image-digest.txt
 
       - name: Build KDE in container
         run: |
@@ -75,7 +75,7 @@ jobs:
             --volume "$(pwd)/build_files:/ctx:ro" \
             --volume "/home/runner/ccache:/ccache" \
             --volume "/tmp/kde-work:/work" \
-            quay.io/fedora-ostree-desktops/base-atomic:${BASE_IMAGE_TAG} \
+            quay.io/fedora-ostree-desktops/kinoite:${BASE_IMAGE_TAG} \
             bash /ctx/kde-build-container.sh
 
       - name: Upload build logs

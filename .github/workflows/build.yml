@@ -70,7 +70,7 @@ jobs:
       matrix:
         variant:
           - name: dx
-            base_image: quay.io/fedora-ostree-desktops/base-atomic:rawhide
+            base_image: quay.io/fedora-ostree-desktops/kinoite:rawhide
             suffix: ""
 
     permissions:
@@ -139,7 +139,7 @@ jobs:
             echo "PINNED_BASE_IMAGE=${PINNED}" >> ${GITHUB_ENV}
           else
             echo "::warning::base-image-digest.txt not found in ${RELEASE_TAG} release. Falling back to :rawhide tag."
-            echo "PINNED_BASE_IMAGE=quay.io/fedora-ostree-desktops/base-atomic:rawhide" >> ${GITHUB_ENV}
+            echo "PINNED_BASE_IMAGE=quay.io/fedora-ostree-desktops/kinoite:rawhide" >> ${GITHUB_ENV}
           fi
 
       - name: Prepare environment
