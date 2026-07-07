@@ -48,10 +48,26 @@ jobs:
             ccache-kde-build-${{ github.ref_name }}-
             ccache-kde-build-
 
+      - name: Set up kde-builder work dir cache (source + build objects)
+        uses: actions/cache@v6
+        with:
+          path: /home/runner/kde-builder
+          key: kde-builder-${{ github.ref_name }}-${{ github.run_id }}
+          restore-keys: |
+            kde-builder-${{ github.ref_name }}-
+
+      - name: Set up KDE install tree cache
+        uses: actions/cache@v6
+        with:
+          path: /home/runner/kde-install
+          key: kde-install-${{ github.ref_name }}-${{ github.run_id }}
+          restore-keys: |
+            kde-install-${{ github.ref_name }}-
+
       - name: Inject ccache into build
         run: |
-          mkdir -p /home/runner/ccache
-          chmod 777 /home/runner/ccache
+          mkdir -p /home/runner/ccache /home/runner/kde-builder /home/runner/kde-install
+          chmod 777 /home/runner/ccache /home/runner/kde-builder /home/runner/kde-install
 
       - name: Capture base image tag
         run: |
@@ -87,6 +103,8 @@ jobs:
             --privileged \
             --volume "$(pwd)/build_files:/ctx:ro" \
             --volume "/home/runner/ccache:/ccache" \
+            --volume "/home/runner/kde-builder:/builder" \
+            --volume "/home/runner/kde-install:/work/tree/install" \
             --volume "/tmp/kde-work:/work" \
             quay.io/fedora-ostree-desktops/kinoite:${BASE_IMAGE_TAG} \
             bash /ctx/kde-build-container.sh

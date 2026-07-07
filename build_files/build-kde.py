@@ -55,7 +55,7 @@ if os.path.exists(mobipocket_cmake_dir):
 # --- Build ---
 os.environ["CXXFLAGS"] = "-ffile-prefix-map=/builder/src/=/usr/src/debug/"
 
-args = ["kde-builder", "--refresh-build"] + KDE_BUILDER_TARGETS
+args = ["kde-builder"] + KDE_BUILDER_TARGETS
 logger.info(f"Running: {' '.join(args)}")
 process = subprocess.run(args=args)
 if process.returncode != 0:
