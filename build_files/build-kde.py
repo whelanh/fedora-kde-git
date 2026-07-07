@@ -45,6 +45,13 @@ rust_cmake = "/usr/lib64/cmake/Qt6/FindRust.cmake"
 if os.path.exists(rust_cmake):
     os.remove(rust_cmake)
 
+# --- Hotfix — remove broken QMobipocket6 CMake config (library missing in rawhide) ---
+# The cmake targets file references libQMobipocket6.so.3.0.0 which does not exist,
+# causing kfilemetadata to fail to configure. Removing the config lets cmake skip it.
+mobipocket_cmake_dir = "/usr/lib64/cmake/QMobipocket6"
+if os.path.exists(mobipocket_cmake_dir):
+    shutil.rmtree(mobipocket_cmake_dir)
+
 # --- Build ---
 os.environ["CXXFLAGS"] = "-ffile-prefix-map=/builder/src/=/usr/src/debug/"
 
