@@ -67,6 +67,19 @@ jobs:
           echo "BASE_IMAGE_TAG=${TAG}" >> ${GITHUB_ENV}
           printf "rawhide=quay.io/fedora-ostree-desktops/kinoite:%s\n" "${TAG}" > /tmp/kde-work/base-image-digest.txt
 
+      - name: Pull base container image (with retries)
+        run: |
+          for attempt in 1 2 3; do
+            echo "Pull attempt ${attempt}/3..."
+            sudo podman pull quay.io/fedora-ostree-desktops/kinoite:${BASE_IMAGE_TAG} && break
+            if [ "${attempt}" -eq 3 ]; then
+              echo "All pull attempts failed."
+              exit 1
+            fi
+            echo "Pull failed, retrying in 30s..."
+            sleep 30
+          done
+
       - name: Build KDE in container
         run: |
           mkdir -p /tmp/kde-work
