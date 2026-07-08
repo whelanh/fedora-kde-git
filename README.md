@@ -13,6 +13,21 @@ A fork of [https://github.com/silverhadch/fedora-plasma-canary](https://github.c
 - Enabled system services: `podman.socket`, `NetworkManager`, `bluetooth`, `cups`
 ---  
 
+## Fork Departures
+
+This fork diverges from [fedora-plasma-canary](https://github.com/silverhadch/fedora-plasma-canary) in the following ways:
+
+- **Kinoite base image**: switched the base from `fedora-ostree-desktops/base-atomic:rawhide` to `fedora-ostree-desktops/kinoite:rawhide` across the Containerfile, Justfile, and CI workflows.
+- **Incremental KDE build caching**: the `kde-build` workflow now caches the kde-builder work directory (source + build objects) and the KDE install tree, and drops `--refresh-build`, so failed builds no longer trigger a full rebuild from scratch.
+- **Automatic retry of failed source updates**: `build-kde.py` detects modules listed in `failed-to-update.log`, clears their cached source/build directories, and reruns kde-builder once before giving up.
+- **Resilient CI pulls**: the base container image pull now retries up to three times before failing.
+- **`stop-on-failure: false`**: kde-builder continues building remaining modules instead of halting on the first failure.
+- **QMobipocket6 hotfix**: removes the broken `QMobipocket6` CMake config (references a missing library) to unblock the `kfilemetadata` build on rawhide.
+- **Extra build dependency**: installs `highway-devel`, required to build `kquickimageeditor`.
+- **Ignore Python build cache artifacts** in `.gitignore`.
+
+---  
+
 ## Rebase to This Image
 
 ```bash
