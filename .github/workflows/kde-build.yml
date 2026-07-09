@@ -73,15 +73,12 @@ jobs:
         run: |
           mkdir -p /tmp/kde-work
 
-          DATE=$(date +%Y%m%d)
-          TAG="rawhide.${DATE}.0"
+          echo "BASE_IMAGE_TAG=rawhide" >> ${GITHUB_ENV}
 
-          echo "Verifying tag exists: ${TAG}"
-          skopeo inspect --no-creds docker://quay.io/fedora-ostree-desktops/kinoite:${TAG} > /dev/null
-
-          echo "Using stable tag: ${TAG}"
-          echo "BASE_IMAGE_TAG=${TAG}" >> ${GITHUB_ENV}
-          printf "rawhide=quay.io/fedora-ostree-desktops/kinoite:%s\n" "${TAG}" > /tmp/kde-work/base-image-digest.txt
+          echo "Resolving rawhide digest..."
+          DIGEST=$(skopeo inspect --no-creds docker://quay.io/fedora-ostree-desktops/kinoite:rawhide --format '{{.Digest}}')
+          echo "Using digest: ${DIGEST}"
+          printf "rawhide=quay.io/fedora-ostree-desktops/kinoite@%s\n" "${DIGEST}" > /tmp/kde-work/base-image-digest.txt
 
       - name: Pull base container image (with retries)
         run: |
