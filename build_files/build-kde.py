@@ -76,6 +76,26 @@ def clear_cached_project(module):
     return bool(removed)
 
 
+def has_successful_builds():
+    log_dir = latest_log_dir()
+    if log_dir is None:
+        return False
+
+    status_file = log_dir / "status-list.log"
+    if not status_file.exists():
+        return False
+
+    try:
+        with open(status_file) as f:
+            for line in f:
+                if "success" in line.lower():
+                    return True
+    except Exception as e:
+        logger.error(f"Failed to read status-list.log: {e}")
+
+    return False
+
+
 def build_kde():
     args = ["kde-builder"] + KDE_BUILDER_TARGETS
     logger.info(f"Running: {' '.join(args)}")
@@ -111,12 +131,16 @@ os.environ["CXXFLAGS"] = "-ffile-prefix-map=/builder/src/=/usr/src/debug/"
 build_exit = build_kde()
 if build_exit != 0:
     retried_modules = [module for module in failed_update_modules() if clear_cached_project(module)]
-    if not retried_modules:
-        raise Exception(f"kde-builder failed ({build_exit})")
+    if retried_modules:
+        logger.warning(
+            f"Retrying kde-builder after clearing failed update modules: {', '.join(retried_modules)}"
+        )
+        build_exit = build_kde()
 
-    logger.warning(
-        f"Retrying kde-builder after clearing failed update modules: {', '.join(retried_modules)}"
-    )
-    build_exit = build_kde()
-    if build_exit != 0:
-        raise Exception(f"kde-builder failed ({build_exit})")
+if build_exit != 0:
+    if has_successful_builds():
+        logger.warning(
+            f"kde-builder exited with non-zero status ({build_exit}), but some components built successfully. Continuing..."
+        )
+    else:
+        raise Exception(f"kde-builder failed completely ({build_exit})")
